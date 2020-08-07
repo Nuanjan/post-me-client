@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { Route } from 'react-router-dom'
-
 import AuthenticatedRoute from '../AuthenticatedRoute/AuthenticatedRoute'
 import AutoDismissAlert from '../AutoDismissAlert/AutoDismissAlert'
 import Header from '../Header/Header'
@@ -9,6 +8,7 @@ import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import ProfileImg from '../UserContent/ProfileImg'
+import Post from '../Post/Post'
 
 class App extends Component {
   constructor () {
@@ -54,6 +54,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/posts' render={() => (
+            <Post msgAlert={this.msgAlert} user={user} />
           )} />
           <Route path='/profile' render={() => (
             <ProfileImg />

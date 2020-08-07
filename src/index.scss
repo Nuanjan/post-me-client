@@ -5,3 +5,16 @@ body {
   background-position: top;
   background-size: cover;
 }
+.con {
+  height: 200px;
+}
+.text {
+  font-size: 2vw;
+}
+.icon {
+  max-height: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 80px auto;
+}

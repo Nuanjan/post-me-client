@@ -1,37 +1,56 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import Form from 'react-bootstrap/Form'
 import axios from 'axios'
-import { Form, FormControl, ControlLabel, Button } from 'react-bootstrap'
+import apiUrl from './../../apiConfig'
 
-class ProfileImg extends Component {
-  handleSubmit (e) {
-    if (e.target.input.files.length) {
-      const uploadFile = e.target.input.files[0]
-      const formData = new FormData()
-      formData.append('file', uploadFile)
-      axios.post(this.props.cfg_url + '/upload', formData)
-        .then(function (response) {
-          console.log('successfully uploaded', uploadFile)
-        })
-    } else {
-      console.log('You need to select a file')
+const ProfileImg = () => {
+  const [file, setFile] = useState('')
+  const [fileName, setFileName] = useState('choose file')
+  const [uploadFile, setUploadFile] = useState({})
+  const onChange = e => {
+    setFile(e.target.files[0])
+    setFileName(e.target.files[0].name)
+  }
+  const onSubmit = async e => {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+      const res = await axios.post(apiUrl + '/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      const { fileName, filePath } = res.data
+      setUploadFile({ fileName, filePath })
+    } catch (err) {
+      if (err.response.status === 500) {
+        console.log('There was aproblem with the server')
+      } else {
+        console.log(err.response.data.msg)
+      }
     }
   }
-
-  render () {
-    return (
-      <Form inline onSubmit={this.handleSubmit}>
-        <Form.Group controlId='uploadFormId'>
-          <ControlLabel>Upload File:</ControlLabel>
-          <FormControl
-            type='file'
-            name="input-file"
-            label='File'
-          />
-        </Form.Group>
-        <Button type='submit'>Upload</Button>
+  return (
+    <div>
+      <Form onSubmit={onSubmit}>
+        <div className="custom-file">
+          <input type='file' className="custom-file-input" id="customFile" onChange={onChange}/>
+          <label className="custom-file-label" htmlFor="customFile">{fileName}</label>
+        </div>
+        <input
+          type='submit'
+          value='upload'
+          className='btn btn-primary btn-block mt-4' />
       </Form>
-    )
-  }
+      { uploadFile ? <div className="row mt-5">
+        <div className="col-md-6 m-auto">
+          <h3 className="text-conter">{ uploadFile.fileName }</h3>
+          <img style= {{ width: '100%' }} src={uploadFile.filePath} alt=""/>
+        </div>
+      </div> : null }
+    </div>
+  )
 }
 
 export default ProfileImg
