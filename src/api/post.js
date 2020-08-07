@@ -1,6 +1,21 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
+export const postCreate = (userToken, post) => {
+  console.log(post)
+  return axios({
+    url: apiUrl + '/posting',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token token=${userToken}`
+    },
+    data: {
+      post: post
+    }
+  })
+}
+
 export const postIndex = (user) => {
   return axios({
     url: apiUrl + '/posts',

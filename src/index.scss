@@ -4,9 +4,10 @@ body {
   background-image: url('/chat.jpg');
   background-position: top;
   background-size: cover;
+  margin: 0;
 }
 .con {
-  height: 200px;
+  height: 300px;
 }
 .text {
   font-size: 2vw;
@@ -14,7 +15,28 @@ body {
 .icon {
   max-height: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction:row;
+  max-width: 30%;
   justify-content: space-around;
-  margin: 80px auto;
+  margin-top: 150px;
+  margin-left: 800px;
+}
+.post-main {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.post-profile {
+  border: black solid 1px;
+  width: 40%;
+  height: 1024px;
+  background-color: white;
+}
+.post-post{
+  width: 100%;
+}
+@media (min-width: 1600px) {
+.container {
+    max-width: 1900px;
+  }
 }
