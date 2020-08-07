@@ -3,6 +3,7 @@ import axios from 'axios'
 
 export const postCreate = (userToken, post) => {
   console.log(post)
+  console.log(userToken)
   return axios({
     url: apiUrl + '/posting',
     method: 'POST',

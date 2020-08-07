@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './../../index.scss'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { postCreate } from '../../api/post'
+import { postCreate, postIndex } from '../../api/post'
 
-const PostCreate = (userToken) => {
+const PostCreate = ({ user, setPosts, posts }) => {
+  console.log(user, 'this is user for Post create')
+  const userToken = user.token
   const [post, setPost] = useState({ text: '' })
 
+  useEffect(() => {
+    postIndex(user)
+      .then(res => {
+        setPosts(res.data.posts)
+      })
+      .catch()
+  }, [])
   const handleChange = event => {
     event.persist()
     setPost(prevPost => {
@@ -19,8 +28,7 @@ const PostCreate = (userToken) => {
     event.preventDefault()
     postCreate(userToken, post)
       .then(res => {
-        console.log(res, ' this is response for create')
-        res.setStatus(201).json(res)
+        console.log(res, 'success created')
       })
       .catch(console.error)
   }

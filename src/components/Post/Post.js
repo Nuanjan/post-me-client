@@ -11,6 +11,7 @@ import PostCreate from './PostCreate'
 import Container from 'react-bootstrap/Container'
 
 const PostIndex = ({ user }) => {
+  console.log(user.token, 'user from post')
   const [posts, setPosts] = useState([])
   useEffect(() => {
     postIndex(user)
@@ -26,7 +27,10 @@ const PostIndex = ({ user }) => {
         <div className="post-main">
           <div className="post-profile">
             <div className="post-profie-child">
-              <PostCreate userToken={user.token}/>
+              <PostCreate
+                user={user}
+                setPosts={setPosts}
+                posts={posts}/>
             </div>
           </div>
           <div className="post-post">
