@@ -13,13 +13,21 @@ import Container from 'react-bootstrap/Container'
 const PostIndex = ({ user }) => {
   console.log(user.token, 'user from post')
   const [posts, setPosts] = useState([])
+  // it like a switch to trigger by passing it to the child
+  // useEffect will run anytime the parameter in [] Change
+  // in this case I pass newPost which emty object and passing
+  // newPost to child and add an object to it to trigger the
+  // useEffect at parent level.
+  const [newPost, setNewPost] = useState({})
+  // useEffect run before render
+  // render and then retun JSX
   useEffect(() => {
     postIndex(user)
       .then(res => {
         setPosts(res.data.posts)
       })
       .catch()
-  }, [])
+  }, [newPost])
 
   return (
     <Container fluid>
@@ -29,7 +37,7 @@ const PostIndex = ({ user }) => {
             <div className="post-profie-child">
               <PostCreate
                 user={user}
-                setPosts={setPosts}
+                setNewPost={setNewPost}
                 posts={posts}/>
             </div>
           </div>

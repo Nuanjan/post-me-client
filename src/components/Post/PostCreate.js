@@ -1,34 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './../../index.scss'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { postCreate, postIndex } from '../../api/post'
+import { postCreate } from '../../api/post'
 
-const PostCreate = ({ user, setPosts, posts }) => {
+const PostCreate = ({ user, setNewPost, posts }) => {
   console.log(user, 'this is user for Post create')
   const userToken = user.token
   const [post, setPost] = useState({ text: '' })
 
-  useEffect(() => {
-    postIndex(user)
-      .then(res => {
-        setPosts(res.data.posts)
-      })
-      .catch()
-  }, [])
+  // useEffect(() => {
+  //   postIndex(user)
+  //     .then(res => {
+  //       console.log(res.data.posts)
+  //     })
+  //     .catch(console.error)
+  // }, [])
   const handleChange = event => {
     event.persist()
-    setPost(prevPost => {
-      const updatedField = { [event.target.name]: event.target.value }
-      const newPost = Object.assign({}, prevPost, updatedField)
-      return newPost
-    })
+    const updatedField = { [event.target.name]: event.target.value }
+    const newPost = Object.assign({}, post, updatedField)
+    setPost(newPost)
   }
   const handleSubmit = event => {
     event.preventDefault()
     postCreate(userToken, post)
       .then(res => {
-        console.log(res, 'success created')
+        // this is make empty object have some Object
+        // it will make useeffect at parent triiger
+        setNewPost(res.data.post)
+        setPost({ text: '' })
+        console.log(res.data.post, 'success created')
       })
       .catch(console.error)
   }
