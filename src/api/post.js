@@ -52,3 +52,13 @@ export const postUpdate = (userToken, post, postId) => {
     }
   })
 }
+
+export const postShow = (postId, userToken) => {
+  return axios({
+    url: apiUrl + '/posts/' + postId,
+    method: 'GET',
+    headers: {
+      'Authorization': `Token token=${userToken}`
+    }
+  })
+}

@@ -14,6 +14,7 @@ import Container from 'react-bootstrap/Container'
 const PostIndex = ({ user }) => {
   console.log(user.token, 'user from post')
   const [posts, setPosts] = useState([])
+
   // it like a switch to trigger by passing it to the child
   // useEffect will run anytime the parameter in [] Change
   // in this case I pass newPost which emty object and passing

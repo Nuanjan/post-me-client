@@ -8,15 +8,17 @@ body {
   background-repeat: no-repeat;
 }
 .con {
-  height: 300px;
+  height: auto;
+
 }
 .icon-upload {
 }
 .text {
   font-size: 2vw;
+  background-color: #fed053;
 }
 .icon {
-  max-height: 10px;
+  height: 50px;
   display: flex;
   flex-direction:row;
   max-width: 30%;
@@ -33,7 +35,7 @@ body {
   border: black solid 1px;
   width: 40%;
   height: 100vw;
-  background-color: white;
+  background-color: #ffeaa2;
   padding: 20px;
 }
 .post-post{
@@ -51,6 +53,39 @@ body {
   border: black solid 1px;
   margin: 20px auto;
 }
+.tip {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  background: transparent;
+  border: 10px solid #8c062b;
+}
+.comment-wrap {
+  position: relative;
+    max-width: 100%;
+    height: auto;
+    margin: 10px 10px;
+    padding: 5px;
+    background-color: #f2f2f2;
+    border-radius: 3px;
+    border: 5px solid #8c062b;
+}
+.body .message {
+  min-height: 30px;
+  border-radius: 3px;
+  font-family: Arial;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #db1049;
+}
+.tip-left {
+  top: 10px;
+  left: -25px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+}
+
 @media (min-width: 1600px) {
 .container {
     max-width: 100%;

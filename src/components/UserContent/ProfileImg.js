@@ -63,7 +63,7 @@ const ProfileImg = () => {
                 onClick={handleShow}/>
             </div>
           </Col>
-        </Row>
+        </Row>gi
       </Container>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
