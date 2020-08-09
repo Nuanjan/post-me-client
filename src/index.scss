@@ -5,9 +5,12 @@ body {
   background-position: top;
   background-size: cover;
   margin: 0;
+  background-repeat: no-repeat;
 }
 .con {
   height: 300px;
+}
+.icon-upload {
 }
 .text {
   font-size: 2vw;
@@ -29,14 +32,27 @@ body {
 .post-profile {
   border: black solid 1px;
   width: 40%;
-  height: 1024px;
+  height: 100vw;
   background-color: white;
+  padding: 20px;
 }
 .post-post{
-  width: 100%;
+  width: 100vw;
+}
+.col-img {
+  display: flex;
+  justify-content: space-around;
+}
+.profile-img {
+  width: 200px;
+  height: 200px;
+}
+.rounded-circle {
+  border: black solid 1px;
+  margin: 20px auto;
 }
 @media (min-width: 1600px) {
 .container {
-    max-width: 1900px;
+    max-width: 100%;
   }
 }

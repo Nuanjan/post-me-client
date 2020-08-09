@@ -7,7 +7,6 @@ import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
-import ProfileImg from '../UserContent/ProfileImg'
 import Post from '../Post/Post'
 
 class App extends Component {
@@ -57,9 +56,6 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/posts' render={() => (
             <Post msgAlert={this.msgAlert} user={user} />
-          )} />
-          <Route path='/profile' render={() => (
-            <ProfileImg />
           )} />
         </main>
       </Fragment>

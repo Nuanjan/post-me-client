@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './../../index.scss'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import ProfileImg from '../UserContent/ProfileImg'
 import { postCreate } from '../../api/post'
 
 const PostCreate = ({ user, setNewPost, posts }) => {
@@ -9,13 +10,6 @@ const PostCreate = ({ user, setNewPost, posts }) => {
   const userToken = user.token
   const [post, setPost] = useState({ text: '' })
 
-  // useEffect(() => {
-  //   postIndex(user)
-  //     .then(res => {
-  //       console.log(res.data.posts)
-  //     })
-  //     .catch(console.error)
-  // }, [])
   const handleChange = event => {
     event.persist()
     const updatedField = { [event.target.name]: event.target.value }
@@ -35,16 +29,19 @@ const PostCreate = ({ user, setNewPost, posts }) => {
       .catch(console.error)
   }
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="exampleForm.ControlTextarea1" >
-        <Form.Label>What You wanna Post today?</Form.Label>
-        <Form.Control as="textarea" rows="3"
-          onChange={handleChange}
-          name="text"
-          value={post.text}/>
-      </Form.Group>
-      <Button variant="danger" type="submit">Danger</Button>
-    </Form>
+    <div>
+      <ProfileImg />
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="exampleForm.ControlTextarea1" >
+          <Form.Label>What You wanna Post today?</Form.Label>
+          <Form.Control as="textarea" rows="3"
+            onChange={handleChange}
+            name="text"
+            value={post.text}/>
+        </Form.Group>
+        <Button variant="danger" type="submit">Danger</Button>
+      </Form>
+    </div>
   )
 }
 export default PostCreate
