@@ -55,15 +55,15 @@ const ProfileImg = () => {
               <div className="col-md-6 m-auto">
                 <Image className='profile-img' src={`${process.env.PUBLIC_URL}${uploadFile.filePath}`} roundedCircle />
               </div>
+              <div className="icon-upload">
+                <FontAwesomeIcon
+                  icon={ faFileImage}
+                  size="4x"
+                  onClick={handleShow}/>
+              </div>
             </div> : null }
-            <div className="icon-upload">
-              <FontAwesomeIcon
-                icon={ faFileImage}
-                size={60}
-                onClick={handleShow}/>
-            </div>
           </Col>
-        </Row>gi
+        </Row>
       </Container>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

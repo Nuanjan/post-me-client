@@ -28,7 +28,6 @@ export const postIndex = (user) => {
 }
 
 export const postDelete = (postId, userToken) => {
-  console.log(postId, 'from api call')
   return axios({
     url: apiUrl + '/posts/' + postId,
     method: 'DELETE',

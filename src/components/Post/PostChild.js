@@ -8,21 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faPencilAlt, faCommentDots, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import messages from '../AutoDismissAlert/messages'
 import Form from 'react-bootstrap/Form'
+import CommentDeleted from '../Comment/CommentDeleted'
 
-const PostChild = ({ text, postId, userToken, owner, userId, posts, setNewPost, setNewCommet }) => {
-  console.log(text, 'this is text\n',
-    postId, 'this is post id\n',
-    userToken, 'this is uer token\n',
-    owner, ' this is owner of post\n',
-    userId, ' this is user id')
+const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, setNewText, setNewCommet }) => {
   const [post, setPost] = useState({ text: '' })
-  const [comment, setComment] = useState({ text: '' })
+  const [comment, setComment] = useState({})
   const [comments, setComments] = useState([])
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const [deleted, setDeleted] = useState(false)
+  // const [commentDeleted, setCommentDeleted] = useState(false)
   const containerStyle = {
     border: 'black solid 1px',
     backgroundColor: 'white',
@@ -31,10 +29,13 @@ const PostChild = ({ text, postId, userToken, owner, userId, posts, setNewPost, 
   useEffect(() => {
     postShow(postId, userToken)
       .then(res => {
-        console.log(res.data.post.comments)
         setComments(res.data.post.comments)
       })
-      .catch()
+      .catch(() => msgAlert({
+        heading: 'Unsuccessful show post',
+        message: messages.cartArrayFailure,
+        variant: 'danger'
+      }))
   }, [comment])
   const handleChangePost = event => {
     event.persist()
@@ -48,11 +49,14 @@ const PostChild = ({ text, postId, userToken, owner, userId, posts, setNewPost, 
       .then(res => {
         // this is make empty object have some Object
         // it will make useeffect at parent triiger
-        setNewPost(res.data.post)
-        setPost({ text: '' })
-        console.log(res.data.post, 'success edited')
+        setNewText({ text: post.text })
+        console.log(res.data, 'success edited')
       })
-      .catch(console.error)
+      .catch(() => msgAlert({
+        heading: 'Unsuccessful update Post',
+        message: messages.cartArrayFailure,
+        variant: 'danger'
+      }))
   }
 
   const handleChangeComment = event => {
@@ -71,13 +75,6 @@ const PostChild = ({ text, postId, userToken, owner, userId, posts, setNewPost, 
       })
       .catch(console.error)
   }
-  if (deleted) {
-    return (
-      <Redirect to={{
-        pathname: '/posts', state: { msg: 'Item succesfully deleted!' }
-      }} />
-    )
-  }
 
   const handleSubmitComment = event => {
     event.preventDefault()
@@ -93,20 +90,38 @@ const PostChild = ({ text, postId, userToken, owner, userId, posts, setNewPost, 
       // .then(() => setIsComment(true))
       .catch(console.error)
   }
-
+  if (deleted) {
+    return (
+      <Redirect to={{
+        pathname: '/posts', state: { msg: 'Item succesfully deleted!' }
+      }} />
+    )
+  }
   return (
     <div>
       {
         (owner === userId)
           ? <div style ={containerStyle} className="con">
             <Col className="text">
-              <div>
+              <div className="tex-icon">
                 {text}
                 <div className="icon">
                   <FontAwesomeIcon onClick={onDelete} icon={ faTrashAlt } />
                   <FontAwesomeIcon
                     onClick={handleShow} icon={ faPencilAlt } />
                 </div>
+                {
+                  comments.map((comment, i) => (
+                    <div key={i} className="comment-wrap">
+                      <div className="body">
+                        <div className="message">
+                          <span className="tip tip-left"></span>
+                          <p >{comment.text}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                }
               </div>
               <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -114,7 +129,7 @@ const PostChild = ({ text, postId, userToken, owner, userId, posts, setNewPost, 
                 </Modal.Header>
                 <Form onSubmit={handleSubmitPost}>
                   <Form.Group controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Example textarea</Form.Label>
+                    <Form.Label>Change Post?</Form.Label>
                     <Form.Control as="textarea" rows="3"
                       onChange={handleChangePost}
                       name="text"
@@ -147,16 +162,13 @@ const PostChild = ({ text, postId, userToken, owner, userId, posts, setNewPost, 
               </div>
               {
                 comments.map((comment, i) => (
-                  <div key={i}>
-                    <div className="comment-wrap">
-                      <div className="body">
-                        <div className="message">
-                          <span className="tip tip-left"></span>
-                          <p>{comment.text}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <CommentDeleted key={i}
+                    commentId={comment._id}
+                    commenter={comment.commenter}
+                    userId={userId}
+                    msgAlert={msgAlert}
+                    comment={comment.text}
+                  />
                 ))
               }
               <Modal show={show} onHide={handleClose}>

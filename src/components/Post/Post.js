@@ -11,9 +11,9 @@ import PostCreate from './PostCreate'
 
 import Container from 'react-bootstrap/Container'
 
-const PostIndex = ({ user }) => {
-  console.log(user.token, 'user from post')
+const PostIndex = ({ user, msgAlert }) => {
   const [posts, setPosts] = useState([])
+  const [post, setPost] = useState({ text: '' })
 
   // it like a switch to trigger by passing it to the child
   // useEffect will run anytime the parameter in [] Change
@@ -21,6 +21,7 @@ const PostIndex = ({ user }) => {
   // newPost to child and add an object to it to trigger the
   // useEffect at parent level.
   const [newPost, setNewPost] = useState({})
+  const [newText, setNewText] = useState({ text: '' })
   // useEffect run before render
   // render and then retun JSX
   useEffect(() => {
@@ -29,7 +30,7 @@ const PostIndex = ({ user }) => {
         setPosts(res.data.posts)
       })
       .catch()
-  }, [newPost])
+  }, [newPost, post, newText])
 
   return (
     <div>
@@ -40,6 +41,10 @@ const PostIndex = ({ user }) => {
               <div className="post-profie-child">
                 <PostCreate
                   user={user}
+                  newPost={newPost}
+                  post={post}
+                  setPost={setPost}
+                  msgAlert={msgAlert}
                   setNewPost={setNewPost}
                   posts={posts}/>
               </div>
@@ -50,13 +55,14 @@ const PostIndex = ({ user }) => {
                   posts.map((post, i) => (
                     <PostChild
                       key={i}
+                      setNewText={setNewText}
                       text={post.text}
-                      setNewPost={setNewPost}
                       posts={posts}
                       postId={post._id}
                       userToken={user.token}
                       userId={user._id}
-                      owner={post.owner} />
+                      owner={post.owner}
+                      msgAlert={msgAlert} />
                   ))
                 }
               </Col>

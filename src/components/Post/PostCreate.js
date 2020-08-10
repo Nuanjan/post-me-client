@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './../../index.scss'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import ProfileImg from '../UserContent/ProfileImg'
 import { postCreate } from '../../api/post'
+import messages from '../AutoDismissAlert/messages'
 
-const PostCreate = ({ user, setNewPost, posts }) => {
-  console.log(user, 'this is user for Post create')
+const PostCreate = ({ msgAlert, user, setNewPost, posts, newPost, post, setPost }) => {
   const userToken = user.token
-  const [post, setPost] = useState({ text: '' })
 
   const handleChange = event => {
     event.persist()
@@ -25,8 +24,13 @@ const PostCreate = ({ user, setNewPost, posts }) => {
         setNewPost(res.data.post)
         setPost({ text: '' })
         console.log(res.data.post, 'success created')
+        return newPost
       })
-      .catch(console.error)
+      .catch(() => msgAlert({
+        heading: 'Error Create post',
+        message: messages.cartArrayFailure,
+        variant: 'danger'
+      }))
   }
   return (
     <div>

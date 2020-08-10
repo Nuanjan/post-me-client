@@ -2,8 +2,6 @@ import apiUrl from '../apiConfig'
 import axios from 'axios'
 
 export const commentCreate = (userId, postId, comment) => {
-  console.log(postId)
-  console.log(userId)
   const commentText = comment.text
   return axios({
     url: apiUrl + '/comments',
@@ -17,6 +15,16 @@ export const commentCreate = (userId, postId, comment) => {
         postId: postId,
         commenter: userId
       }
+    }
+  })
+}
+
+export const commentDelete = (commentId) => {
+  return axios({
+    url: apiUrl + '/comments/' + commentId,
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
     }
   })
 }
