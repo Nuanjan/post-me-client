@@ -9,19 +9,8 @@ import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import Post from '../Post/Post'
 const style = {
-  color: '#8c062b',
-  fontSize: '24px',
-  border: 'solid white 2px',
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  marginTop: '-50px',
-  marginLeft: '-300px',
-  padding: '50px',
-  backgroundColor: 'white',
-  opacity: '0.5',
-  borderRadius: '50px 20px'
-
+  color: 'white',
+  fontSize: '24px'
 }
 
 class App extends Component {
