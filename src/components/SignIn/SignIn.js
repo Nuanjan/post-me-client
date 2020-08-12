@@ -6,7 +6,9 @@ import messages from '../AutoDismissAlert/messages'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-
+const style = {
+  color: 'white'
+}
 class SignIn extends Component {
   constructor () {
     super()
@@ -49,7 +51,7 @@ class SignIn extends Component {
 
     return (
       <div className="row">
-        <div className="col-sm-10 col-md-8 mx-auto mt-5">
+        <div className="col-sm-10 col-md-8 mx-auto mt-5" style={style}>
           <h3>Sign In</h3>
           <Form onSubmit={this.onSignIn}>
             <Form.Group controlId="email">
@@ -75,7 +77,7 @@ class SignIn extends Component {
               />
             </Form.Group>
             <Button
-              variant="primary"
+              variant="warning"
               type="submit"
             >
               Submit

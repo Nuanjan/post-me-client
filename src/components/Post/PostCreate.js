@@ -33,6 +33,7 @@ const PostCreate = ({ setImg, msgAlert, user, setNewPost, posts, newPost, post, 
   }
   return (
     <div>
+      <div className="img-wrap">Image here</div>
       <ProfileImg
         userToken={userToken}
         setImg={setImg} />
@@ -44,7 +45,7 @@ const PostCreate = ({ setImg, msgAlert, user, setNewPost, posts, newPost, post, 
             name="text"
             value={post.text}/>
         </Form.Group>
-        <Button variant="danger" type="submit">Danger</Button>
+        <Button variant="danger" type="submit" className="btn btn-primary btn-lg btn-block">Post Me</Button>
       </Form>
     </div>
   )

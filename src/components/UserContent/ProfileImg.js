@@ -11,7 +11,7 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 
 const ProfileImg = ({ userToken, setImg }) => {
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState({ filePath: '/uploads/user_yellow.png' })
   const [fileName, setFileName] = useState('choose file')
   const [upload, setUpload] = useState(false)
   // const [uploadFile, setUploadFile] = useState({
@@ -48,7 +48,7 @@ const ProfileImg = ({ userToken, setImg }) => {
           <Col className="col-img">
             { upload ? <div className="row mt-5">
               <div className="col-md-6 m-auto">
-                <Image className='profile-img' src={setImg} roundedCircle />
+                <Image className='profile-img' src="user_yellow.png" roundedCircle />
               </div>
             </div> : null }
             <div className="icon-upload">
@@ -58,7 +58,7 @@ const ProfileImg = ({ userToken, setImg }) => {
                 onClick={handleShow}/>
             </div>
           </Col>
-        </Row>gi
+        </Row>
       </Container>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
