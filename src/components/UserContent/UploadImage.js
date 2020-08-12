@@ -22,7 +22,6 @@ const UploadImage = ({ user, setImg }) => {
 
     uploadCreate('multipart/form-data', formData, user)
       .then(res => {
-        console.log(res.data.upload)
         setImg(res.data.upload)
       })
       .catch(console.error)

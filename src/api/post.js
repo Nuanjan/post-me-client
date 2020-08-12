@@ -2,8 +2,6 @@ import apiUrl from '../apiConfig'
 import axios from 'axios'
 
 export const postCreate = (userToken, post) => {
-  console.log(post)
-  console.log(userToken)
   return axios({
     url: apiUrl + '/posting',
     method: 'POST',
@@ -39,7 +37,6 @@ export const postDelete = (postId, userToken) => {
 
 // parameter name does not matter but order are matter!
 export const postUpdate = (userToken, post, postId) => {
-  console.log('pass this request')
   return axios({
     url: apiUrl + '/posts/' + postId,
     method: 'PATCH',

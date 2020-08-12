@@ -26,14 +26,12 @@ const ProfileImg = ({ userToken, setImg }) => {
     setImage(event.target.files[0])
     setFileName(event.target.files[0].name)
     setUpload(true)
-    console.log(event.target.files[0], ' this files')
   }
   const handleSubmit = event => {
     event.preventDefault()
     const formData = new FormData()
     formData.append('name', fileName)
     formData.append('image', image.webkitRelativePath)
-    console.log(formData, ' this is form data')
     event.preventDefault()
     uploadCreate(userToken, formData)
       .then(res => {

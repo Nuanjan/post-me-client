@@ -50,7 +50,6 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
         // this is make empty object have some Object
         // it will make useeffect at parent triiger
         setNewText({ text: post.text })
-        console.log(res.data, 'success edited')
       })
       .catch(() => msgAlert({
         heading: 'Unsuccessful update Post',
@@ -68,7 +67,6 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
 
   const onDelete = event => {
     event.preventDefault()
-    console.log(postId)
     postDelete(postId, userToken)
       .then(() => {
         setDeleted(true)
@@ -78,14 +76,12 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
 
   const handleSubmitComment = event => {
     event.preventDefault()
-    console.log(comment, ' this is comment to pass in to api')
     commentCreate(userId, postId, comment)
       .then(res => {
       // this is make empty object have some Object
       // it will make useeffect at parent triiger
       //  setNewComment(res.data.post)
         setComment({ text: '' })
-        console.log(res.data.post, 'success comment')
       })
       // .then(() => setIsComment(true))
       .catch(console.error)

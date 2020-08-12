@@ -23,7 +23,6 @@ const PostCreate = ({ setImg, msgAlert, user, setNewPost, posts, newPost, post, 
         // it will make useeffect at parent triiger
         setNewPost(res.data.post)
         setPost({ text: '' })
-        console.log(res.data.post, 'success created')
         return newPost
       })
       .catch(() => msgAlert({

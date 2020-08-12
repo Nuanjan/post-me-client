@@ -3,8 +3,6 @@ import axios from 'axios'
 
 // S3 upload
 export const uploadCreate = (contentType, userToken, formData) => {
-  console.log(formData, 'this is from Api formData')
-  console.log(userToken, 'this is user')
   return axios({
     method: 'POST',
     url: apiUrl + '/uploads',
