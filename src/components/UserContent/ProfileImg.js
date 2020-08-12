@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form'
-import axios from 'axios'
-import apiUrl from './../../apiConfig'
+import './../../index.scss'
+import { uploadCreate } from '../../api/upload'
 import Image from 'react-bootstrap/Image'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
@@ -9,69 +8,72 @@ import Container from 'react-bootstrap/Container'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
 
-const ProfileImg = () => {
-  const [file, setFile] = useState('')
+const ProfileImg = ({ userToken, setImg }) => {
+  const [image, setImage] = useState('')
   const [fileName, setFileName] = useState('choose file')
-  const [uploadFile, setUploadFile] = useState({
-    fileName: '',
-    filePath: '/uploads/user_yellow.png'
-  })
-  // const [image, setImage] = useState('')
+  const [upload, setUpload] = useState(false)
+  // const [uploadFile, setUploadFile] = useState({
+  //   fileName: '',
+  //   filePath: '/uploads/user_yellow.png'
+  // })
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const onChange = e => {
-    setFile(e.target.files[0])
-    setFileName(e.target.files[0].name)
+
+  const handleChange = event => {
+    setImage(event.target.files[0])
+    setFileName(event.target.files[0].name)
+    setUpload(true)
+    console.log(event.target.files[0], ' this files')
   }
-  const onSubmit = async e => {
-    e.preventDefault()
+  const handleSubmit = event => {
+    event.preventDefault()
     const formData = new FormData()
-    formData.append('file', file)
-    try {
-      const res = await axios.post(apiUrl + '/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+    formData.append('name', fileName)
+    formData.append('image', image.webkitRelativePath)
+    console.log(formData, ' this is form data')
+    event.preventDefault()
+    uploadCreate(userToken, formData)
+      .then(res => {
+        // this is make empty object have some Object
+        // it will make useeffect at parent triiger
+      //  setUploadFile(res)
       })
-      const { fileName, filePath } = res.data
-      setUploadFile({ fileName, filePath })
-      setShow(false)
-    } catch (err) {
-      if (err.response.status === 500) {
-        console.log('There was aproblem with the server')
-      } else {
-        console.log(err.response.data.msg)
-      }
-    }
   }
+
   return (
     <div>
       <Container>
         <Row>
           <Col className="col-img">
-            { uploadFile ? <div className="row mt-5">
+            { upload ? <div className="row mt-5">
               <div className="col-md-6 m-auto">
-                <Image className='profile-img' src={`${process.env.PUBLIC_URL}${uploadFile.filePath}`} roundedCircle />
-              </div>
-              <div className="icon-upload">
-                <FontAwesomeIcon
-                  icon={ faFileImage}
-                  size="4x"
-                  onClick={handleShow}/>
+                <Image className='profile-img' src={setImg} roundedCircle />
               </div>
             </div> : null }
+            <div className="icon-upload">
+              <FontAwesomeIcon
+                icon={ faFileImage}
+                size="2x"
+                onClick={handleShow}/>
+            </div>
           </Col>
-        </Row>
+        </Row>gi
       </Container>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Post</Modal.Title>
         </Modal.Header>
-        <Form onSubmit={onSubmit}>
+        <Form
+          onSubmit={handleSubmit}>
           <div className="custom-file">
-            <input type='file' className="custom-file-input" id="customFile" onChange={onChange}/>
+            <input
+              type='file'
+              name='image'
+              className="custom-file-input"
+              id="customFile" onChange={handleChange}/>
             <label className="custom-file-label" htmlFor="customFile">{fileName}</label>
           </div>
           <input
@@ -83,5 +85,4 @@ const ProfileImg = () => {
     </div>
   )
 }
-
 export default ProfileImg

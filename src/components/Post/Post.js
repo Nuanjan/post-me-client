@@ -11,7 +11,7 @@ import PostCreate from './PostCreate'
 
 import Container from 'react-bootstrap/Container'
 
-const PostIndex = ({ user, msgAlert }) => {
+const PostIndex = ({ user, msgAlert, setImg }) => {
   const [posts, setPosts] = useState([])
   const [post, setPost] = useState({ text: '' })
 
@@ -45,6 +45,7 @@ const PostIndex = ({ user, msgAlert }) => {
                   post={post}
                   setPost={setPost}
                   msgAlert={msgAlert}
+                  setImg={setImg}
                   setNewPost={setNewPost}
                   posts={posts}/>
               </div>
