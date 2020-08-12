@@ -6,5 +6,7 @@ export default {
   signOutSuccess: 'Come back soon!',
   changePasswordSuccess: 'Password changed successfully!',
   changePasswordFailure: 'Failed to change passwords. Check your old password and try again.',
-  postIndexFailure: 'Failed to load posts'
+  postIndexFailure: 'Failed to load posts',
+  postFail: 'Faile to show Post',
+  commentFail: 'Fail to Comment'
 }

@@ -12,7 +12,7 @@ import messages from '../AutoDismissAlert/messages'
 import Form from 'react-bootstrap/Form'
 import CommentDeleted from '../Comment/CommentDeleted'
 
-const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, setNewText, setNewCommet }) => {
+const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, posts, setNewText, setNewCommet }) => {
   const [post, setPost] = useState({ text: '' })
   const [comment, setComment] = useState({})
   const [comments, setComments] = useState([])
@@ -33,7 +33,7 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
       })
       .catch(() => msgAlert({
         heading: 'Unsuccessful show post',
-        message: messages.cartArrayFailure,
+        message: messages.postFail,
         variant: 'danger'
       }))
   }, [comment])
@@ -53,7 +53,7 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
       })
       .catch(() => msgAlert({
         heading: 'Unsuccessful update Post',
-        message: messages.cartArrayFailure,
+        message: messages.postFail,
         variant: 'danger'
       }))
   }
@@ -71,7 +71,11 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
       .then(() => {
         setDeleted(true)
       })
-      .catch(console.error)
+      .catch(() => msgAlert({
+        heading: 'Error Create post',
+        message: messages.commentFail,
+        variant: 'danger'
+      }))
   }
 
   const handleSubmitComment = event => {
@@ -84,12 +88,16 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
         setComment({ text: '' })
       })
       // .then(() => setIsComment(true))
-      .catch(console.error)
+      .catch(() => msgAlert({
+        heading: 'Error create comment',
+        message: messages.commentFail,
+        variant: 'danger'
+      }))
   }
   if (deleted) {
     return (
       <Redirect to={{
-        pathname: '/posts', state: { msg: 'Item succesfully deleted!' }
+        pathname: '/posts', state: { msg: 'Post succesfully deleted!' }
       }} />
     )
   }
@@ -100,7 +108,10 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
           ? <div style ={containerStyle} className="con">
             <Col className="text">
               <div className="tex-icon">
-                {text}
+                <div className="post-detail">
+                  <div>{text}</div>
+                  <div>post by:<span>email here</span></div>
+                </div>
                 <div className="icon">
                   <FontAwesomeIcon onClick={onDelete} icon={ faTrashAlt } />
                   <FontAwesomeIcon
@@ -149,8 +160,9 @@ const PostChild = ({ msgAlert, text, postId, userToken, owner, userId, posts, se
           : <div style ={containerStyle}
             className="con">
             <Col className="text">
-              <div>
-                {text}
+              <div className="post-detail">
+                <div>{text}</div>
+                <div>post by:<span>email here</span></div>
               </div>
               <div className="icon">
                 <FontAwesomeIcon onClick={handleShow} icon={ faCommentDots } />

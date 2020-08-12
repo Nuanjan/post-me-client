@@ -10,7 +10,11 @@ body {
 }
 .con {
   height: auto;
-
+}
+.post-detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .icon-upload {
   margin:20px;
@@ -107,6 +111,9 @@ body {
   border-radius: 50%;
   text-align: center;
   margin: 10px auto;
+}
+.s-comment {
+  margin-left: 50vw;
 }
 @media (min-width: 1600px) {
 .container {

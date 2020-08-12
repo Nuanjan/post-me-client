@@ -6,7 +6,7 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { Redirect } from 'react-router-dom'
 import messages from '../AutoDismissAlert/messages'
 
-const CommentDeleted = ({ msgAlert, setCommentDeleted, commentId, commenter, userId, comment }) => {
+const CommentDeleted = ({ user, msgAlert, setCommentDeleted, commentId, commenter, userId, comment }) => {
   const [deleted, setDeleted] = useState(false)
   const onCommentDelete = event => {
     event.preventDefault()
@@ -16,7 +16,7 @@ const CommentDeleted = ({ msgAlert, setCommentDeleted, commentId, commenter, use
       })
       .catch(() => msgAlert({
         heading: 'Unsuccessful Delete Comment',
-        message: messages.cartArrayFailure,
+        message: messages.commentFail,
         variant: 'danger'
       }))
   }
@@ -34,7 +34,7 @@ const CommentDeleted = ({ msgAlert, setCommentDeleted, commentId, commenter, use
         <div className="message">
           <span className="tip tip-left"></span>
           <div className="delete-comment-wrap">
-            <p>{comment}</p>
+            <p>{comment}<span className="s-comment">comment by:email here</span></p>
             {
               (commenter === userId)
                 ? <div className=""><FontAwesomeIcon
