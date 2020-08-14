@@ -8,8 +8,21 @@ export const uploadCreate = (contentType, userToken, formData) => {
     url: apiUrl + '/uploads',
     headers: {
       'Authorization': `Token token=${userToken}`,
-      'Content-Type': false
+      'Content-Type': contentType
     },
     data: formData
+  })
+}
+
+export const showImage = (imageId, userToken) => {
+  console.log(imageId, 'image id')
+  console.log(userToken, ' this is userToken')
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/uploads/' + imageId,
+    headers: {
+      'Authorization': `Token token=${userToken}`,
+      'Content-Type': 'multipart/form-data'
+    }
   })
 }

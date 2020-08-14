@@ -6,7 +6,7 @@ import ProfileImg from '../UserContent/ProfileImg'
 import { postCreate } from '../../api/post'
 import messages from '../AutoDismissAlert/messages'
 
-const PostCreate = ({ setImg, msgAlert, user, setNewPost, posts, newPost, post, setPost }) => {
+const PostCreate = ({ msgAlert, user, setNewPost, posts, newPost, post, setPost }) => {
   const userToken = user.token
 
   const handleChange = event => {
@@ -33,10 +33,8 @@ const PostCreate = ({ setImg, msgAlert, user, setNewPost, posts, newPost, post, 
   }
   return (
     <div>
-      <div className="img-wrap">Image here</div>
       <ProfileImg
-        userToken={userToken}
-        setImg={setImg} />
+        userToken={userToken} />
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="exampleForm.ControlTextarea1" >
           <Form.Label>What You wanna Post today?</Form.Label>
