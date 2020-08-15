@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './../../index.scss'
-import { uploadCreate } from '../../api/upload'
+import { uploadCreate, showImage } from '../../api/upload'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -9,7 +9,7 @@ import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Image from 'react-bootstrap/Image'
-import ShowImage from './ShowImage'
+// import ShowImage from './ShowImage'
 
 const ProfileImg = ({ userToken, setImg }) => {
   console.log(userToken, ' this is user Token')
@@ -17,15 +17,16 @@ const ProfileImg = ({ userToken, setImg }) => {
   const [name, setName] = useState('choose file')
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
-  const [imageId, setImageId] = useState('')
   const handleShow = () => setShow(true)
-  // const handelSubmitShow = (imageId) => {
-  //   showImage(imageId, userToken)
-  //     .then(res => {
-  //       console.log(res.data.upload.imageUrl)
-  //       setImageUrl(res.data.upload.imageUrl)
-  //     })
-  // }
+  const [imageUrl, setImageUrl] = useState('')
+
+  const handelSubmitShow = (imageId) => {
+    showImage(imageId, userToken)
+      .then(res => {
+        console.log(res.data.upload.imageUrl)
+        setImageUrl(res.data.upload.imageUrl)
+      })
+  }
   const handleChange = event => {
     setImage(event.target.files[0])
     setName(event.target.files[0].name)
@@ -39,9 +40,12 @@ const ProfileImg = ({ userToken, setImg }) => {
     uploadCreate('multipart/form-data', userToken, formData)
       .then(res => {
         console.log(res.data.upload._id)
-        setImageId(res.data.upload._id)
+        // setImageId(res.data.upload._id)
         setImage(res.data.upload)
+        setShow(false)
+        return res
       })
+      .then(res => handelSubmitShow(res.data.upload._id))
       .catch(console.error)
   }
 
@@ -51,8 +55,7 @@ const ProfileImg = ({ userToken, setImg }) => {
         <Row>
           <div className="row mt-5">
             <div className="col-md-6 m-auto">
-              <ShowImage userToken={userToken} imageId={imageId}/>
-              <Image className='profile-img' src={'./uploads/user_yellow.png'} roundedCircle />
+              <Image className='profile-img' src={imageUrl} roundedCircle />
             </div>
           </div>
           <Col className="col-img">
