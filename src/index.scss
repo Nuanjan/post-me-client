@@ -17,7 +17,7 @@ body {
   justify-content: space-between;
 }
 .icon-upload {
-  margin:20px;
+margin: 0 auto;
 }
 .text {
   font-size: 2vw;
@@ -51,7 +51,7 @@ body {
 }
 .col-img {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end;
 }
 .profile-img {
   width: 200px;
@@ -113,7 +113,7 @@ body {
   margin: 10px auto;
 }
 .s-comment {
-  margin-left: 50vw;
+  margin-left: 40vw;
 }
 @media (min-width: 1600px) {
 .container {

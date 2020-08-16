@@ -12,7 +12,6 @@ import Form from 'react-bootstrap/Form'
 // import ShowImage from './ShowImage'
 
 const ProfileImg = ({ user, setUpload }) => {
-  console.log(user, ' this is user Token')
   const [image, setImage] = useState(null)
   const [name, setName] = useState('choose file')
   const [show, setShow] = useState(false)
@@ -60,7 +59,7 @@ const ProfileImg = ({ user, setUpload }) => {
             </div>
           </div>
           <Col className="col-img">
-            <div className="icon-upload">
+            <div className="icon-upload">Click icon to Add Profile Image
               <FontAwesomeIcon
                 icon={ faFileImage}
                 size="2x"

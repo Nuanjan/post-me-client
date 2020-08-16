@@ -8,10 +8,6 @@ import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import Post from '../Post/Post'
-const style = {
-  color: 'white',
-  fontSize: '24px'
-}
 
 class App extends Component {
   constructor () {
@@ -19,12 +15,13 @@ class App extends Component {
 
     this.state = {
       user: null,
-      msgAlerts: []
+      msgAlerts: [],
+      welcome: 'Welcome to Post-Me,  Please sign in or sign up to Post'
     }
   }
 
   setUser = user => this.setState({ user })
-
+  setWelcome = welcome => this.setState({ welcome: '' })
   clearUser = () => this.setState({ user: null })
 
   msgAlert = ({ heading, message, variant }) => {
@@ -46,15 +43,15 @@ class App extends Component {
           />
         ))}
         <main className="container">
-          <div style={style}>Welcome to Post-me Please Sign in to Post!</div>
+          <div style={{ color: 'white', fontSize: '24px' }}>{this.state.welcome}</div>
           <Route path='/sign-up' render={() => (
-            <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
+            <SignUp msgAlert={this.msgAlert} setUser={this.setUser} setWelcome={this.setWelcome}/>
           )} />
           <Route path='/sign-in' render={() => (
-            <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
+            <SignIn msgAlert={this.msgAlert} setUser={this.setUser} setWelcome={this.setWelcome}/>
           )} />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
-            <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />
+            <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} setWelcome={this.setWelcome}/>
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />

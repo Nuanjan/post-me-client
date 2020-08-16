@@ -60,8 +60,7 @@ const PostIndex = ({ user, msgAlert, setImg }) => {
                       text={post.text}
                       posts={posts}
                       postId={post._id}
-                      userToken={user.token}
-                      userId={user._id}
+                      user={user}
                       owner={post.owner}
                       msgAlert={msgAlert} />
                   ))

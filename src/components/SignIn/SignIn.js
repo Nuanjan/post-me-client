@@ -18,7 +18,6 @@ class SignIn extends Component {
       password: ''
     }
   }
-
   handleChange = event => this.setState({
     [event.target.name]: event.target.value
   })
@@ -26,10 +25,13 @@ class SignIn extends Component {
   onSignIn = event => {
     event.preventDefault()
 
-    const { msgAlert, history, setUser } = this.props
+    const { msgAlert, history, setUser, setWelcome } = this.props
 
     signIn(this.state)
-      .then(res => setUser(res.data.user))
+      .then(res => {
+        setUser(res.data.user)
+        setWelcome({ welcome: '' })
+      })
       .then(() => msgAlert({
         heading: 'Sign In Success',
         message: messages.signInSuccess,

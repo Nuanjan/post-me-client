@@ -20,6 +20,7 @@ const PostCreate = ({ msgAlert, user, setNewPost, posts, newPost, post, setPost 
     event.preventDefault()
     postCreate(userToken, post)
       .then(res => {
+        console.log(res.data.post)
         // this is make empty object have some Object
         // it will make useeffect at parent triiger
         setNewPost(res.data.post)

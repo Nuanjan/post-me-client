@@ -17,16 +17,12 @@ const ShowImage = ({ user }) => {
   useEffect(() => {
     indexImage(user)
       .then(res => {
-        console.log(res.data, ' this is response')
         setUploads(res.data.uploads)
         setClose(true)
       })
   }, [upload])
   return (
     <div>
-      <ProfileImage
-        user={user}
-        setUpload={setUpload}/>
       {
         uploads.map((upload, i) => (
           <div key={i} className="mt-5" style={style}>
@@ -40,6 +36,9 @@ const ShowImage = ({ user }) => {
           </div>
         ))
       }
+      <ProfileImage
+        user={user}
+        setUpload={setUpload}/>
     </div>
   )
 }

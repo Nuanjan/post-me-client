@@ -12,7 +12,7 @@ import messages from '../AutoDismissAlert/messages'
 import Form from 'react-bootstrap/Form'
 import CommentDeleted from '../Comment/CommentDeleted'
 
-const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, posts, setNewText, setNewCommet }) => {
+const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, setNewCommet }) => {
   const [post, setPost] = useState({ text: '' })
   const [comment, setComment] = useState({})
   const [comments, setComments] = useState([])
@@ -27,8 +27,9 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
     margin: '10px'
   }
   useEffect(() => {
-    postShow(postId, userToken)
+    postShow(postId, user.token)
       .then(res => {
+        console.log(res.data.post.comments)
         setComments(res.data.post.comments)
       })
       .catch(() => msgAlert({
@@ -45,7 +46,7 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
   }
   const handleSubmitPost = event => {
     event.preventDefault()
-    postUpdate(userToken, post, postId)
+    postUpdate(user.token, post, postId)
       .then(res => {
         // this is make empty object have some Object
         // it will make useeffect at parent triiger
@@ -67,7 +68,7 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
 
   const onDelete = event => {
     event.preventDefault()
-    postDelete(postId, userToken)
+    postDelete(postId, user.token)
       .then(() => {
         setDeleted(true)
       })
@@ -80,7 +81,7 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
 
   const handleSubmitComment = event => {
     event.preventDefault()
-    commentCreate(userId, postId, comment)
+    commentCreate(user._id, postId, comment)
       .then(res => {
       // this is make empty object have some Object
       // it will make useeffect at parent triiger
@@ -104,13 +105,13 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
   return (
     <div>
       {
-        (owner === userId)
+        (owner._id === user._id)
           ? <div style ={containerStyle} className="con">
             <Col className="text">
               <div className="tex-icon">
                 <div className="post-detail">
                   <div>{text}</div>
-                  <div>post by:<span>email here</span></div>
+                  <div>post by:<span>{owner.email}</span></div>
                 </div>
                 <div className="icon">
                   <FontAwesomeIcon onClick={onDelete} icon={ faTrashAlt } />
@@ -123,7 +124,7 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
                       <div className="body">
                         <div className="message">
                           <span className="tip tip-left"></span>
-                          <p >{comment.text}</p>
+                          <p >{comment.text}<span className="s-comment">comment by:{comment.commenter.email}</span></p>
                         </div>
                       </div>
                     </div>
@@ -162,7 +163,7 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
             <Col className="text">
               <div className="post-detail">
                 <div>{text}</div>
-                <div>post by:<span>email here</span></div>
+                <div>post by:<span>{owner.email}</span></div>
               </div>
               <div className="icon">
                 <FontAwesomeIcon onClick={handleShow} icon={ faCommentDots } />
@@ -171,11 +172,10 @@ const PostChild = ({ user, msgAlert, text, postId, userToken, owner, userId, pos
               {
                 comments.map((comment, i) => (
                   <CommentDeleted key={i}
-                    commentId={comment._id}
-                    commenter={comment.commenter}
-                    userId={userId}
+                    user={user}
+                    owner={owner}
                     msgAlert={msgAlert}
-                    comment={comment.text}
+                    comment={comment}
                   />
                 ))
               }
