@@ -2,7 +2,8 @@ import React from 'react'
 import './../../index.scss'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import ProfileImg from '../UserContent/ProfileImg'
+// import ProfileImg from '../UserContent/ProfileImg'
+import ShowImage from '../UserContent/ShowImage'
 import { postCreate } from '../../api/post'
 import messages from '../AutoDismissAlert/messages'
 
@@ -33,8 +34,8 @@ const PostCreate = ({ msgAlert, user, setNewPost, posts, newPost, post, setPost 
   }
   return (
     <div>
-      <ProfileImg
-        userToken={userToken} />
+      <ShowImage
+        user={user} />
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="exampleForm.ControlTextarea1" >
           <Form.Label>What You wanna Post today?</Form.Label>

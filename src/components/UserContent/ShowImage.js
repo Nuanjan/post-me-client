@@ -1,35 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './../../index.scss'
-import { showImage } from '../../api/upload'
-import Row from 'react-bootstrap/Row'
-import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button'
+import { indexImage } from '../../api/upload'
 import Image from 'react-bootstrap/Image'
+import ProfileImage from './ProfileImg'
 
-const ShowImage = ({ userToken, imageId }) => {
-  console.log(imageId)
-  const [image, setImage] = useState({})
+const style = {
+  flex: '1',
+  flexDirection: 'row'
+}
 
-  const handleSubmitShow = event => {
-    showImage(imageId, userToken)
+const ShowImage = ({ user }) => {
+//  const [imageUrl, setImageUrl] = useState('')
+  const [uploads, setUploads] = useState([])
+  const [close, setClose] = useState(false)
+  const [upload, setUpload] = useState({})
+  useEffect(() => {
+    indexImage(user)
       .then(res => {
-        console.log(res.data.upload)
-        setImage(res.data.upload)
+        console.log(res.data, ' this is response')
+        setUploads(res.data.uploads)
+        setClose(true)
       })
-  }
-
+  }, [upload])
   return (
     <div>
-      <Container>
-        <Row>
-          <div className="row mt-5">
+      <ProfileImage
+        user={user}
+        setUpload={setUpload}/>
+      {
+        uploads.map((upload, i) => (
+          <div key={i} className="mt-5" style={style}>
             <div className="col-md-6 m-auto">
-              <Image className='profile-img' src={image.imageUrl} roundedCircle />
-              <Button onClick={handleSubmitShow}>Show Image</Button>
+              {
+                (i === uploads.length - 1 && upload.owner === user._id)
+                  ? <Image className='profile-img' src={upload.imageUrl} roundedCircle />
+                  : <p>{close}</p>
+              }
             </div>
           </div>
-        </Row>
-      </Container>
+        ))
+      }
     </div>
   )
 }

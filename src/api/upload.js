@@ -26,3 +26,15 @@ export const showImage = (imageId, userToken) => {
     }
   })
 }
+
+export const indexImage = (user) => {
+  console.log(user.token, ' this is userToken')
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/uploads',
+    headers: {
+      'Authorization': `Token token=${user.token}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}

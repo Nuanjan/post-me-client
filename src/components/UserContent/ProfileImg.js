@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './../../index.scss'
-import { uploadCreate, showImage } from '../../api/upload'
+import { uploadCreate } from '../../api/upload'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
@@ -8,25 +8,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import Image from 'react-bootstrap/Image'
+// import Image from 'react-bootstrap/Image'
 // import ShowImage from './ShowImage'
 
-const ProfileImg = ({ userToken, setImg }) => {
-  console.log(userToken, ' this is user Token')
+const ProfileImg = ({ user, setUpload }) => {
+  console.log(user, ' this is user Token')
   const [image, setImage] = useState(null)
   const [name, setName] = useState('choose file')
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const [imageUrl, setImageUrl] = useState('')
+  // const [imageUrl, setImageUrl] = useState('')
 
-  const handelSubmitShow = (imageId) => {
-    showImage(imageId, userToken)
-      .then(res => {
-        console.log(res.data.upload.imageUrl)
-        setImageUrl(res.data.upload.imageUrl)
-      })
-  }
+  // const handelSubmitShow = (imageId) => {
+  //   showImage(imageId, user.token)
+  //     .then(res => {
+  //       console.log(res.data.upload.imageUrl)
+  //       // setImageUrl(res.data.upload.imageUrl)
+  //       setImageUrl(res.data.upload.imageUrl)
+  //     })
+  // }
   const handleChange = event => {
     setImage(event.target.files[0])
     setName(event.target.files[0].name)
@@ -37,15 +38,16 @@ const ProfileImg = ({ userToken, setImg }) => {
     formData.append('name', name)
     formData.append('image', image)
     console.log('pass this line 43')
-    uploadCreate('multipart/form-data', userToken, formData)
+    uploadCreate('multipart/form-data', user.token, formData)
       .then(res => {
         console.log(res.data.upload._id)
         // setImageId(res.data.upload._id)
         setImage(res.data.upload)
         setShow(false)
+        setUpload(res.data.upload)
         return res
       })
-      .then(res => handelSubmitShow(res.data.upload._id))
+      // .then(res => handelSubmitShow(res.data.upload._id))
       .catch(console.error)
   }
 
@@ -55,7 +57,6 @@ const ProfileImg = ({ userToken, setImg }) => {
         <Row>
           <div className="row mt-5">
             <div className="col-md-6 m-auto">
-              <Image className='profile-img' src={imageUrl} roundedCircle />
             </div>
           </div>
           <Col className="col-img">
