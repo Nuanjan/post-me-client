@@ -29,7 +29,7 @@ const ShowImage = ({ user }) => {
             <div className="col-md-6 m-auto">
               {
                 (i === uploads.length - 1 && upload.owner === user._id)
-                  ? <Image className='profile-img' src={upload.imageUrl} roundedCircle />
+                  ? <Image className='profile-img' src={upload.imageUrl} roundedCircle crossorigin="anonymous" />
                   : <p>{close}</p>
               }
             </div>
