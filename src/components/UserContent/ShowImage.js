@@ -17,7 +17,7 @@ const ShowImage = ({ user }) => {
   useEffect(() => {
     indexImage(user)
       .then(res => {
-        setUploads(res.data.uploads)
+        setUploads(res.data.uploads.filter(upload => upload.owner === user._id))
         setClose(true)
       })
   }, [upload])

@@ -120,3 +120,16 @@ margin: 0 auto;
     max-width: 100%;
   }
 }
+@media(min-width: 768px) and (max-width: 900px ) {
+  .profile-img {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+  .post-profile {
+    width: 60%;
+  }
+  .m-auto {
+    margin: 0 !important;
+  }
+}

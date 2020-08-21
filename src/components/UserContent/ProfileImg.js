@@ -59,7 +59,7 @@ const ProfileImg = ({ user, setUpload }) => {
             </div>
           </div>
           <Col className="col-img">
-            <div className="icon-upload">Click icon to Add Profile Image
+            <div className="icon-upload">Add Profile Image
               <FontAwesomeIcon
                 icon={ faFileImage}
                 size="2x"

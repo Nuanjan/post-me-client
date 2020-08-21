@@ -26,6 +26,7 @@
 
 ## Unsolve Problem
 * need to finish the profile image component for upload image.
+* like button is not working.
 
 
 ## Images
