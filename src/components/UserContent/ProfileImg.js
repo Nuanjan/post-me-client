@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileImage } from '@fortawesome/free-solid-svg-icons'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
+// import userImg from './../../user-profile.png'
 // import Image from 'react-bootstrap/Image'
-// import ShowImage from './ShowImage'
+import ShowImage from './ShowImage'
 
 const ProfileImg = ({ user, setUpload }) => {
   const [image, setImage] = useState(null)
@@ -36,7 +37,6 @@ const ProfileImg = ({ user, setUpload }) => {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('image', image)
-    console.log('pass this line 43')
     uploadCreate('multipart/form-data', user.token, formData)
       .then(res => {
         console.log(res.data.upload._id)
@@ -55,7 +55,8 @@ const ProfileImg = ({ user, setUpload }) => {
       <Container>
         <Row>
           <div className="row mt-5">
-            <div className="col-md-6 m-auto">
+            <div className="col-md-6 m-auto image-user">
+              <ShowImage />
             </div>
           </div>
           <Col className="col-img">

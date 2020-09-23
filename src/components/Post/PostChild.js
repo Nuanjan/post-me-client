@@ -21,11 +21,7 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
   const handleShow = () => setShow(true)
   const [deleted, setDeleted] = useState(false)
   // const [commentDeleted, setCommentDeleted] = useState(false)
-  const containerStyle = {
-    border: 'black solid 1px',
-    backgroundColor: 'white',
-    margin: '10px'
-  }
+
   useEffect(() => {
     postShow(postId, user.token)
       .then(res => {
@@ -106,7 +102,7 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
     <div>
       {
         (owner._id === user._id)
-          ? <div style ={containerStyle} className="con">
+          ? <div className="con">
             <Col className="text">
               <div className="tex-icon">
                 <div className="post-detail">
@@ -158,7 +154,7 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
               </Modal>
             </Col>
           </div>
-          : <div style ={containerStyle}
+          : <div
             className="con">
             <Col className="text">
               <div className="post-detail">

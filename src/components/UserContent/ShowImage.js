@@ -8,34 +8,38 @@ const style = {
   flex: '1',
   flexDirection: 'row'
 }
-
+// <Image className='profile-img' src={upload.imageUrl} roundedCircle crossorigin="anonymous" />
 const ShowImage = ({ user }) => {
 //  const [imageUrl, setImageUrl] = useState('')
   const [uploads, setUploads] = useState([])
-  const [close, setClose] = useState(false)
+  // const [close, setClose] = useState(false)
   const [upload, setUpload] = useState({})
   useEffect(() => {
     indexImage(user)
       .then(res => {
         setUploads(res.data.uploads.filter(upload => upload.owner === user._id))
-        setClose(true)
+        //  setClose(true)
+        console.log(res.data.uploads)
       })
   }, [upload])
+
   return (
     <div>
-      {
-        uploads.map((upload, i) => (
-          <div key={i} className="mt-5" style={style}>
-            <div className="col-md-6 m-auto">
-              {
-                (i === uploads.length - 1 && upload.owner === user._id)
-                  ? <Image className='profile-img' src={upload.imageUrl} roundedCircle crossorigin="anonymous" />
-                  : <p>{close}</p>
-              }
+      <div className= "image-wrap">
+        {
+          uploads.map((upload, i) => (
+            <div key={i} className="mt-5" style={style}>
+              <div className="col-md-12 col-lg-6 m-auto image-upload">
+                {
+                  (i === uploads.length - 1 && upload.owner === user._id)
+                    ? <Image className='profile-img' src={upload.imageUrl} roundedCircle crossorigin="anonymous" />
+                    : null
+                }
+              </div>
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
       <ProfileImage
         user={user}
         setUpload={setUpload}/>

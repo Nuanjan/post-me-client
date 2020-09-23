@@ -45,7 +45,7 @@ const PostCreate = ({ msgAlert, user, setNewPost, posts, newPost, post, setPost 
             name="text"
             value={post.text}/>
         </Form.Group>
-        <Button variant="danger" type="submit" className="btn btn-primary btn-lg btn-block">Post Me</Button>
+        <Button variant="danger" type="submit" className="btn-red btn btn-primary btn-lg btn-block">Post Me</Button>
       </Form>
     </div>
   )

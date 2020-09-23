@@ -43,7 +43,7 @@ class App extends Component {
           />
         ))}
         <main className="container">
-          <div style={{ color: 'white', fontSize: '24px' }}>{this.state.welcome}</div>
+          <div className="welcome-header" style={{ color: 'white', margin: '30px' }}>{this.state.welcome}</div>
           <Route path='/sign-up' render={() => (
             <SignUp msgAlert={this.msgAlert} setUser={this.setUser} setWelcome={this.setWelcome}/>
           )} />
