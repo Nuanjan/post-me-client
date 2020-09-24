@@ -10,7 +10,6 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 // import userImg from './../../user-profile.png'
 // import Image from 'react-bootstrap/Image'
-import ShowImage from './ShowImage'
 
 const ProfileImg = ({ user, setUpload }) => {
   const [image, setImage] = useState(null)
@@ -55,8 +54,7 @@ const ProfileImg = ({ user, setUpload }) => {
       <Container>
         <Row>
           <div className="row mt-5">
-            <div className="col-md-6 m-auto image-user">
-              <ShowImage />
+            <div className="col-md-6 m-auto">
             </div>
           </div>
           <Col className="col-img">
