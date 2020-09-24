@@ -9,6 +9,7 @@ const style = {
   flexDirection: 'row'
 }
 // <Image className='profile-img' src={upload.imageUrl} roundedCircle crossorigin="anonymous" />
+const imgU = []
 const ShowImage = ({ user }) => {
 //  const [imageUrl, setImageUrl] = useState('')
   const [uploads, setUploads] = useState([])
@@ -20,6 +21,8 @@ const ShowImage = ({ user }) => {
         setUploads(res.data.uploads.filter(upload => upload.owner === user._id))
         //  setClose(true)
         console.log(res.data.uploads)
+        imgU.push(res.data.uploads)
+        console.log(imgU)
       })
   }, [upload])
 

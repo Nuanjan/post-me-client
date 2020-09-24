@@ -39,7 +39,7 @@ const PostCreate = ({ msgAlert, user, setNewPost, posts, newPost, post, setPost 
         user={user} />
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="exampleForm.ControlTextarea1" >
-          <Form.Label>What You wanna Post today?</Form.Label>
+          <Form.Label>What You wanna Post today? {user.email}</Form.Label>
           <Form.Control as="textarea" rows="3"
             onChange={handleChange}
             name="text"
