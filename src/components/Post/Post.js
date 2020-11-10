@@ -21,6 +21,7 @@ const PostIndex = ({ user, msgAlert, setImg }) => {
   // newPost to child and add an object to it to trigger the
   // useEffect at parent level.
   const [newPost, setNewPost] = useState({})
+  const [newLike, setNewLike] = useState({ likeStatus: false })
   const [newText, setNewText] = useState({ text: '' })
   // useEffect run before render
   // render and then retun JSX
@@ -30,7 +31,7 @@ const PostIndex = ({ user, msgAlert, setImg }) => {
         setPosts(res.data.posts)
       })
       .catch()
-  }, [newPost, post, newText])
+  }, [newPost, post, newText, newLike])
 
   return (
     <div>
@@ -57,6 +58,7 @@ const PostIndex = ({ user, msgAlert, setImg }) => {
                     <PostChild
                       key={i}
                       setNewText={setNewText}
+                      setNewLike={setNewLike}
                       text={post.text}
                       posts={posts}
                       postId={post._id}

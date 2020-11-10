@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './../../index.scss'
 import { postDelete, postUpdate, postShow } from '../../api/post'
 import { commentCreate } from '../../api/comment'
+import { likeCreate, likeUpdate } from '../../api/like'
 import { Redirect } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,28 +13,32 @@ import messages from '../AutoDismissAlert/messages'
 import Form from 'react-bootstrap/Form'
 import CommentDeleted from '../Comment/CommentDeleted'
 
-const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, setNewCommet }) => {
+const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, setNewLike }) => {
   const [post, setPost] = useState({ text: '' })
   const [comment, setComment] = useState({})
+  const [like, setLike] = useState({ likeStatus: false })
+  const [likes, setLikes] = useState(0)
   const [comments, setComments] = useState([])
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const [deleted, setDeleted] = useState(false)
   // const [commentDeleted, setCommentDeleted] = useState(false)
-
+  console.log(posts)
   useEffect(() => {
     postShow(postId, user.token)
       .then(res => {
         console.log(res.data.post.comments)
         setComments(res.data.post.comments)
+        const totalLike = res.data.post.likes.filter(like => like.likeStatus === true)
+        setLikes(totalLike.length)
       })
       .catch(() => msgAlert({
         heading: 'Unsuccessful show post',
         message: messages.postFail,
         variant: 'danger'
       }))
-  }, [comment])
+  }, [comment, like])
   const handleChangePost = event => {
     event.persist()
     const updatedField = { [event.target.name]: event.target.value }
@@ -91,6 +96,35 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
         variant: 'danger'
       }))
   }
+  const onLike = event => {
+    event.preventDefault()
+    if (user._id !== like.liketer) {
+      likeCreate(user._id, postId, like.likeStatus)
+        .then(res => {
+          setLike({ likeStatus: true })
+          setNewLike({ likeStatus: true })
+        })
+        .catch(() => msgAlert({
+          heading: 'Error create like',
+          message: messages.commentFail,
+          variant: 'danger'
+        }))
+    } else if (user._id === like.liketer) {
+      like.likeStatus = false
+      likeUpdate(like.likeStatus, like.id)
+        .then(res => {
+          setLike({ likeStatus: false })
+          setNewLike({ likeStatus: false })
+        })
+    } else {
+      like.likeStatus = false
+      likeUpdate(like.likeStatus, like.id)
+        .then(res => {
+          setLike({ likeStatus: false })
+          setNewLike({ likeStatus: false })
+        })
+    }
+  }
   if (deleted) {
     return (
       <Redirect to={{
@@ -98,6 +132,7 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
       }} />
     )
   }
+
   return (
     <div>
       {
@@ -163,7 +198,19 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
               </div>
               <div className="icon">
                 <FontAwesomeIcon onClick={handleShow} icon={ faCommentDots } />
-                <FontAwesomeIcon icon={ faThumbsUp } />
+                { (like.likeStatus !== true)
+                  ? <FontAwesomeIcon
+                    onClick={onLike}
+                    icon={ faThumbsUp }
+                    style={{ color: '#8c062b' }}
+                  />
+                  : <FontAwesomeIcon
+                    onClick={onLike}
+                    icon={ faThumbsUp }
+                    style={{ color: '#ff0000' }}
+                  />
+                }
+                <p>like: <span>{likes}</span></p>
               </div>
               {
                 comments.map((comment, i) => (
