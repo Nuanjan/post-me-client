@@ -7,8 +7,6 @@ import { Redirect } from 'react-router-dom'
 import messages from '../AutoDismissAlert/messages'
 
 const CommentDeleted = ({ user, msgAlert, comment, owner, commenter }) => {
-  console.log(comment, ' this is comment')
-  console.log(user, 'this si user')
   const [deleted, setDeleted] = useState(false)
   const onCommentDelete = event => {
     event.preventDefault()

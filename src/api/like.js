@@ -1,7 +1,8 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
-export const likeCreate = (userId, postId, like) => {
+export const likeCreate = (userId, postId) => {
+  console.log(userId)
   return axios({
     url: apiUrl + '/likes',
     method: 'POST',
@@ -10,7 +11,7 @@ export const likeCreate = (userId, postId, like) => {
     },
     data: {
       like: {
-        likeStatus: like,
+        likeStatus: true,
         postId: postId,
         liketer: userId
       }
@@ -19,6 +20,8 @@ export const likeCreate = (userId, postId, like) => {
 }
 
 export const likeUpdate = (like, likeId) => {
+  console.log(like)
+  console.log(likeId)
   return axios({
     url: apiUrl + '/likes/' + likeId,
     method: 'PATCH',

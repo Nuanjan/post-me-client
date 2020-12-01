@@ -13,23 +13,35 @@ import messages from '../AutoDismissAlert/messages'
 import Form from 'react-bootstrap/Form'
 import CommentDeleted from '../Comment/CommentDeleted'
 
-const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, setNewLike }) => {
+const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText }) => {
   const [post, setPost] = useState({ text: '' })
   const [comment, setComment] = useState({})
-  const [like, setLike] = useState({ likeStatus: false })
+  const [likeChange, setLikeChange] = useState({ like: '' })
+  const [likeId, setLikeId] = useState('')
+  const [newLike, setNewLike] = useState({})
   const [likes, setLikes] = useState(0)
+  const [likeArr, setLikeArr] = useState([])
   const [comments, setComments] = useState([])
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const [deleted, setDeleted] = useState(false)
-  // const [commentDeleted, setCommentDeleted] = useState(false)
-  console.log(posts)
   useEffect(() => {
     postShow(postId, user.token)
       .then(res => {
         console.log(res.data.post.comments)
         setComments(res.data.post.comments)
+        console.log(res.data.post.likes)
+        setLikeArr(res.data.post.likes)
+        for (let i = 0; i < res.data.post.likes.length; i++) {
+          if (user._id === res.data.post.likes[i].liketer._id) {
+            setLikeId(res.data.post.likes[i].liketer._id)
+            setNewLike(res.data.post.likes[i])
+          } else {
+            setNewLike({})
+            setLikeArr([])
+          }
+        }
         const totalLike = res.data.post.likes.filter(like => like.likeStatus === true)
         setLikes(totalLike.length)
       })
@@ -38,7 +50,7 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
         message: messages.postFail,
         variant: 'danger'
       }))
-  }, [comment, like])
+  }, [comment, likeChange])
   const handleChangePost = event => {
     event.persist()
     const updatedField = { [event.target.name]: event.target.value }
@@ -96,35 +108,43 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
         variant: 'danger'
       }))
   }
-  const onLike = event => {
+  const onLike = (event) => {
+    let likeSta = true
     event.preventDefault()
-    if (user._id !== like.liketer) {
-      likeCreate(user._id, postId, like.likeStatus)
+    if (likeArr.length === 0) {
+      likeCreate(user._id, postId)
         .then(res => {
-          setLike({ likeStatus: true })
-          setNewLike({ likeStatus: true })
+          setLikeChange({ text: 'liked' })
         })
         .catch(() => msgAlert({
           heading: 'Error create like',
           message: messages.commentFail,
           variant: 'danger'
         }))
-    } else if (user._id === like.liketer) {
-      like.likeStatus = false
-      likeUpdate(like.likeStatus, like.id)
-        .then(res => {
-          setLike({ likeStatus: false })
-          setNewLike({ likeStatus: false })
-        })
     } else {
-      like.likeStatus = false
-      likeUpdate(like.likeStatus, like.id)
-        .then(res => {
-          setLike({ likeStatus: false })
-          setNewLike({ likeStatus: false })
-        })
+      console.log(newLike)
+      console.log(likeArr)
+      for (let i = 0; i < likeArr.length; i++) {
+        if (likeArr[i].likeStatus === true) {
+          likeSta = false
+          likeUpdate(likeSta, newLike._id)
+            .then(res => {
+              setLikeChange({ text: 'unLike' })
+            })
+        }
+        if (likeArr[i].likeStatus === false) {
+          likeSta = true
+          console.log(likeSta)
+          likeUpdate(likeSta, newLike._id)
+            .then(res => {
+              setNewLike({ likeStatus: false })
+              setLikeChange({ text: 'liked' })
+            })
+        }
+      }
     }
   }
+
   if (deleted) {
     return (
       <Redirect to={{
@@ -138,7 +158,7 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
       {
         (owner._id === user._id)
           ? <div className="con">
-            <Col className="text">
+            <Col lg={12} className="text">
               <div className="tex-icon">
                 <div className="post-detail">
                   <div>{text}</div>
@@ -148,6 +168,7 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
                   <FontAwesomeIcon onClick={onDelete} icon={ faTrashAlt } />
                   <FontAwesomeIcon
                     onClick={handleShow} icon={ faPencilAlt } />
+                  <div className="like-total">like: {likes}</div>
                 </div>
                 {
                   comments.map((comment, i) => (
@@ -196,21 +217,22 @@ const PostChild = ({ user, msgAlert, text, postId, owner, posts, setNewText, set
                 <div>{text}</div>
                 <div>post by:<span>{owner.email}</span></div>
               </div>
-              <div className="icon">
+              <div className="icon like-btn">
                 <FontAwesomeIcon onClick={handleShow} icon={ faCommentDots } />
-                { (like.likeStatus !== true)
-                  ? <FontAwesomeIcon
-                    onClick={onLike}
-                    icon={ faThumbsUp }
-                    style={{ color: '#8c062b' }}
-                  />
-                  : <FontAwesomeIcon
-                    onClick={onLike}
-                    icon={ faThumbsUp }
-                    style={{ color: '#ff0000' }}
-                  />
+                {
+                  (likeId === user._id && newLike.likeStatus === true)
+                    ? <FontAwesomeIcon
+                      onClick={onLike}
+                      icon={ faThumbsUp }
+                      style={{ color: '#fff200' }}
+                    />
+                    : <FontAwesomeIcon
+                      onClick={onLike}
+                      icon={ faThumbsUp }
+                      style={{ color: '#8c062b' }}
+                    />
                 }
-                <p>like: <span>{likes}</span></p>
+                <p className="like-total">like: <span>{likes}</span></p>
               </div>
               {
                 comments.map((comment, i) => (

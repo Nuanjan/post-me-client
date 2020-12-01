@@ -20,9 +20,7 @@ const ShowImage = ({ user }) => {
       .then(res => {
         setUploads(res.data.uploads.filter(upload => upload.owner === user._id))
         //  setClose(true)
-        console.log(res.data.uploads)
         imgU.push(res.data.uploads)
-        console.log(imgU)
       })
   }, [upload])
 
